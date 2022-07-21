@@ -1,0 +1,87 @@
+site_name: bqliang's blog
+site_url: https://bqliang.com
+site_author: bqliang
+
+theme:
+  name: material
+  icon:
+    logo: material/android-studio # 页眉 logo
+  font:
+    text: Noto Sans SC #常规字体
+    code: Roboto Mono #等宽字体
+  language: zh # 网站语言
+  features:
+    - navigation.instant # 即时加载 —— 所有内部链接的点击都将被拦截并通过XHR分发，而无需完全重新加载页面
+    - navigation.tracking # 锚点跟踪
+    - navigation.tabs # 导航选项卡
+    - navigation.top # 快速返回顶部
+    #- toc.integrate # 将文章目录集成到导航目录中显示
+    - search.suggest # 搜索建议
+    #- header.autohide # 滚动超过某个阈值时，自动隐藏页眉
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: light blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: green
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light mode
+
+nav:
+  - Home: index.md
+  - Kotlin:
+      - Kotlin/继承与构造函数.md
+      - Kotlin/Lambda 编程.md
+      - Kotlin/静态方法.md
+      - Kotlin/延迟初始化和密封类.md
+      - Kotlin/扩展函数和运算符重载.md
+      - Kotlin/高阶函数.md
+      - Kotlin/高阶函数的应用.md
+      - Kotlin/泛型与委托.md
+      - Kotlin/infix 函数.md
+      - Kotlin/泛型的高级特征.md
+      - Kotlin/协程.md
+      - Kotlin/编写好用的工具方法.md
+      - Kotlin/DSL.md
+      - Kotlin/作用域函数.md
+  - Android:
+      - Android/Compose自定义主题.md
+  - 其他:
+      - Ubuntu 安装后的配置.md
+
+plugins:
+  - search # 内置搜索插件
+
+markdown_extensions:
+  - toc:
+      permalink: true # 在每个标题的末尾添加一个锚链接
+  # 代码块和内联代码块的语法突出显示
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+extra:
+  social: #友情链接
+    - icon: material/email
+      link: mailto:hi@bqliang.com
+      name: hi@bqliang.com
+    - icon: fontawesome/brands/github
+      link: https://github.com/bqliang
+      name: Github
+    - icon: fontawesome/brands/telegram
+      link: https://t.me/bqliang
+      name: Telegram
+  # 关闭 "此网页由 mkdocs 生成"
+  generator: false
+
+copyright: Copyright &copy; 2022 bqliang
