@@ -1,0 +1,1157 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="bqliang">
+      
+      
+        <link rel="canonical" href="https://bqliang.com/Kotlin/%E6%B3%9B%E5%9E%8B%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>泛型的高级特征 - bqliang's blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans SC";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="light-blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="bqliang&#39;s blog" class="md-header__button md-logo" aria-label="bqliang's blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 2h2v2h.5A1.5 1.5 0 0 1 15 5.5V9l-.44.44 1.64 2.84C17.31 11.19 18 9.68 18 8h2c0 2.42-1.07 4.59-2.77 6.06l3.14 5.44.13 2.22-1.87-1.22-3.07-5.33c-1.06.53-2.28.83-3.56.83-1.28 0-2.5-.3-3.56-.83L5.37 20.5 3.5 21.72l.13-2.22L9.44 9.44 9 9V5.5A1.5 1.5 0 0 1 10.5 4h.5V2M9.44 13.43c.78.37 1.65.57 2.56.57.91 0 1.78-.2 2.56-.57L13.1 10.9h-.01c-.62.6-1.56.6-2.18 0h-.01l-1.46 2.53M12 6a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            bqliang's blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              泛型的高级特征
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="green"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      Home
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E7%BB%A7%E6%89%BF%E4%B8%8E%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" class="md-tabs__link md-tabs__link--active">
+        Kotlin
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Android/Compose%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%BB%E9%A2%98/" class="md-tabs__link">
+        Android
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Ubuntu%20%E5%AE%89%E8%A3%85%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/" class="md-tabs__link">
+        其他
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="bqliang&#39;s blog" class="md-nav__button md-logo" aria-label="bqliang's blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 2h2v2h.5A1.5 1.5 0 0 1 15 5.5V9l-.44.44 1.64 2.84C17.31 11.19 18 9.68 18 8h2c0 2.42-1.07 4.59-2.77 6.06l3.14 5.44.13 2.22-1.87-1.22-3.07-5.33c-1.06.53-2.28.83-3.56.83-1.28 0-2.5-.3-3.56-.83L5.37 20.5 3.5 21.72l.13-2.22L9.44 9.44 9 9V5.5A1.5 1.5 0 0 1 10.5 4h.5V2M9.44 13.43c.78.37 1.65.57 2.56.57.91 0 1.78-.2 2.56-.57L13.1 10.9h-.01c-.62.6-1.56.6-2.18 0h-.01l-1.46 2.53M12 6a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1Z"/></svg>
+
+    </a>
+    bqliang's blog
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Kotlin
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Kotlin" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Kotlin
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%BB%A7%E6%89%BF%E4%B8%8E%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" class="md-nav__link">
+        继承与构造函数
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Lambda%20%E7%BC%96%E7%A8%8B/" class="md-nav__link">
+        Lambda 编程基础
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95/" class="md-nav__link">
+        静态方法
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%BB%B6%E8%BF%9F%E5%88%9D%E5%A7%8B%E5%8C%96%E5%92%8C%E5%AF%86%E5%B0%81%E7%B1%BB/" class="md-nav__link">
+        延迟初始化和密封类
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E6%89%A9%E5%B1%95%E5%87%BD%E6%95%B0%E5%92%8C%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/" class="md-nav__link">
+        扩展函数和运算符重载
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/" class="md-nav__link">
+        高阶函数
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0%E7%9A%84%E5%BA%94%E7%94%A8/" class="md-nav__link">
+        高阶函数的应用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E6%B3%9B%E5%9E%8B%E4%B8%8E%E5%A7%94%E6%89%98/" class="md-nav__link">
+        泛型与委托
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../infix%20%E5%87%BD%E6%95%B0/" class="md-nav__link">
+        infix 函数
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          泛型的高级特征
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        泛型的高级特征
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 泛型实化
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 泛型实化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-java" class="md-nav__link">
+    1.1 Java 的泛型擦除机制
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2 内联函数对泛型的影响
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    1.3 具体实现
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 泛型实化的应用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3. 泛型的协变
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 泛型的协变">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-list" class="md-nav__link">
+    3.1 List
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4. 泛型的逆变
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 泛型的逆变">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-comparable" class="md-nav__link">
+    4.1 Comparable
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%8D%8F%E7%A8%8B/" class="md-nav__link">
+        协程
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%BC%96%E5%86%99%E5%A5%BD%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7%E6%96%B9%E6%B3%95/" class="md-nav__link">
+        编写好用的工具方法
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DSL/" class="md-nav__link">
+        DSL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%87%BD%E6%95%B0/" class="md-nav__link">
+        Kotlin 作用域函数
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Android
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Android" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Android
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Android/Compose%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%BB%E9%A2%98/" class="md-nav__link">
+        Compose自定义主题
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          其他
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="其他" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          其他
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ubuntu%20%E5%AE%89%E8%A3%85%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/" class="md-nav__link">
+        Ubuntu 快速配置
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 泛型实化
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 泛型实化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-java" class="md-nav__link">
+    1.1 Java 的泛型擦除机制
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2 内联函数对泛型的影响
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    1.3 具体实现
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 泛型实化的应用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3. 泛型的协变
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 泛型的协变">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-list" class="md-nav__link">
+    3.1 List
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4. 泛型的逆变
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 泛型的逆变">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-comparable" class="md-nav__link">
+    4.1 Comparable
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="_1">泛型的高级特征<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="1">1. 泛型实化<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>要深刻理解泛型实化，我们得先解释一下 Java 的泛型擦除机制（虽然 Java 中没有泛型实化的概念）</p>
+<h3 id="11-java">1.1 Java 的泛型擦除机制<a class="headerlink" href="#11-java" title="Permanent link">&para;</a></h3>
+<p>在 JDK 1.5 之前，Java是没有泛型功能的，彼时诸如 List 之类的数据结构可以存储任意类型的数据，取出数据的时候也需要手动向下转型才行。直到 JDK 1.5，Java 才引入泛型功能。</p>
+<p>Java 的泛型功能是通过类型擦除机制来实现的。什么意思呢？就是说泛型对于类型的约束只在编译时期存在，运行时仍然会按照 JDK 1.5之前的机制来运行，JVM 是识别不出来我们在代码中指定的泛型类型的。例如，假设我们创建了一个List\<String> 集合，虽然在编译时期只能向集合中添加字符串类型的元素，但是在运行时期 JVM并不能知道它本来只打算包含哪种类型的元素，只能识别出来它是个 List。</p>
+<p>所有基于 JVM 的语言，它们的泛型功能都是通过类型擦除机制来实现的，其中当然也包括了 Kotlin。这种机制使得我们不可能使用 <code>a is T</code> 或者 <code>T::class.java</code> 这样的语法，因为 T 的实际类型在运行的时候已经被擦除了。</p>
+<h3 id="12">1.2 内联函数对泛型的影响<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>Kotlin 提供了一个内联函数的概念。内联函数中的代码会在编译的时候自动被替换到调用它的地方，这样的话也就不存在什么泛型擦除的问题了，因为代码在编译之后会直接使用实际的类型来替代内联函数中的泛型声明。</p>
+<p><img alt="" src="../imgs/%E6%B3%9B%E5%9E%8B%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/1.png" /></p>
+<p>最终代码：</p>
+<p><img alt="" src="../imgs/%E6%B3%9B%E5%9E%8B%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/2.png" /></p>
+<p>可以看到，<code>bar()</code> 是一个带有泛型类型的内联函数，<code>foo()</code> 调用了 <code>bar()</code> 函数，在代码编译之后，<code>bar()</code> 中的代码将可以获得泛型的实际类型。这就意味着，Kotlin 中是可以将内联函数中的泛型进行实化的。</p>
+<h3 id="13">1.3 具体实现<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<p>具体怎么写才能将泛型实化呢？首先，该函数必须是内联函数才行，也就是要用 <code>inline</code> 关键字来修饰该函数。其次，在声明泛型的地方必须加上 <code>reified</code> 关键字来表示该泛型要进行实化：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">inline</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="o">&lt;</span><span class="k">reified</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getGenericType</span><span class="p">(){</span><span class="w"></span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>上述函数中的泛型 T 就是一个被实化的泛型，因为它满足了<strong>内联函数</strong>和 <strong><code>reified</code></strong> 关键字这两个前提条件。那么借助泛型实化，到底可以实现什么样的效果呢？从函数名就可以看出来了，这里我们准备实现一个获取泛型实际类型的功能，代码如下所示：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">inline</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="o">&lt;</span><span class="k">reified</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getGenericType</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">T</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="w"></span>
+</code></pre></div>
+<p>虽然只有一行代码，但是这里却实现了一个 Java 中完全不可能实现的功能：<code>getGenericType()</code> 直接返回了当前指定泛型的实际类型。<code>T.class</code> 这样的语法在Java中是不合法的，而在 Kotlin 中，借助泛型实化功能就可以使用 <code>T::class.java</code> 这样的语法了。</p>
+<h2 id="2">2. 泛型实化的应用<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>Android 的四大组件除了 ContentProvider 之外，其余的3个组件有一个共同的特点：都要结合 Intent 一起使用。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">val</span><span class="w"> </span><span class="nv">intent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Intent</span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">TestActivity</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">context</span><span class="p">.</span><span class="na">startActivity</span><span class="p">(</span><span class="n">intent</span><span class="p">)</span><span class="w"></span>
+</code></pre></div>
+<p>有没有觉得 <code>TestActivity::class.java</code> 这样的语法很难受呢？Kotlin 的泛型实化功能使得我们拥有了更好的选择。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">inline</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="o">&lt;</span><span class="k">reified</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">startActivity</span><span class="p">(</span><span class="n">context</span><span class="p">:</span><span class="w"> </span><span class="n">Context</span><span class="p">){</span><span class="w"></span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">intent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Intent</span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">context</span><span class="p">.</span><span class="na">startActivity</span><span class="p">(</span><span class="n">intent</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>这里我们定义了一个 <code>startActivity()</code> 函数，该函数接收一个 Context 参数，并同时使用 <code>inline</code> 和 <code>reified</code> 关键字让泛型 T 成为了一个被实化的泛型。接下来就是神奇的地方了，Intent 接收的第二个参数本来应该是一个具体 Activity的 Class 类型，但由于现在 T 已经是一个被实化的泛型了，因此这里我们可以直接传入 <code>T::class.java</code>。最后调用 Context 的 <code>startActivity()</code> 来完成 Activity 的启动。现在，如果我们想要启动 TestActivity，只需要这样写就可以了：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">startActivity</span><span class="o">&lt;</span><span class="n">TestActivity</span><span class="o">&gt;</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="w"></span>
+</code></pre></div>
+<p>Kotlin 将能够识别出指定泛型的实际类型，并启动相应的 Activity。</p>
+<p>不过，现在的 <code>startActivity()</code> 函数其实还是有问题的，因为通常在启用 Activity 的时候还可能会使用 Intent 附带一些参数，比如：<code>intent.putExtra("param1", 123)</code>，经过刚才的封装之后，我们就无法进行传参了。</p>
+<p>其实也不难解决，只需要借助高阶函数就可以轻松搞定。添加一个新的 startActivity() 函数重载，如下所示：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">inline</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="o">&lt;</span><span class="k">reified</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">startActivity</span><span class="p">(</span><span class="n">context</span><span class="p">:</span><span class="w"> </span><span class="n">Context</span><span class="p">,</span><span class="w"> </span><span class="n">block</span><span class="p">:</span><span class="w"> </span><span class="n">Intent</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">){</span><span class="w"></span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">intent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Intent</span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="n">intent</span><span class="p">.</span><span class="na">block</span><span class="p">()</span><span class="w"></span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="n">context</span><span class="p">.</span><span class="na">startActivity</span><span class="p">(</span><span class="n">intent</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>可以看到，这次的 <code>startActivity()</code> 函数中增加了一个函数类型参数，并且它的函数类型是定义在 Intent 类当中的。在创建完 Intent 实例后，随即调用该函数类型参数，并把 Intent 实例传入，这样调用 <code>startActivity()</code> 函数的时候就可以在 Lambda 表达式中为 Intent 传递参数了，如下所示：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">startActivity</span><span class="o">&lt;</span><span class="n">TestActivity</span><span class="o">&gt;</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="n">putExtra</span><span class="p">(</span><span class="s">&quot;param1&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">123</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="3">3. 泛型的协变<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p>学习协变和逆变前，先得先了解一个约定。一个<strong>泛型类或者泛型接口中的方法</strong>，它的参数列表是接收数据的地方，称为 in 位置，而它的返回值是输出数据的地方，称为 out 位置：</p>
+<p><img alt="" src="../imgs/%E6%B3%9B%E5%9E%8B%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/3.png" /></p>
+<p>好，有了这个约定前提，我们继续。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">open</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Person</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">age</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kd">class</span><span class="w"> </span><span class="nc">Student</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kd">class</span><span class="w"> </span><span class="nc">Teacher</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">)</span><span class="w"></span>
+</code></pre></div>
+<p>这里首先定义了一个 Person 类，然后又定义了 Student 和 Teacher 这两个类作为 Person 类的子类。这时如果某个方法接收一个 List&lt;Person> 类型的参数，而我们传入一个 List&lt;Student> 的实例，这样合不合法呢？Java 中是不允许的，因为 List&lt;Student> 不能成为 List&lt;Person> 的子类，否则将可能存在类型转换的安全隐患。下面我们用一个具体的例子进行说明。这里自定义一个 SimpleData 类，代码如下所示：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">class</span><span class="w"> </span><span class="nc">SimpleData</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">data</span><span class="p">:</span><span class="w"> </span><span class="n">T? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="w"></span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="n">t</span><span class="p">:</span><span class="w"> </span><span class="n">T?)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">        </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="w"></span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="w"></span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>接着我们<strong>假设</strong>，如果编程语言允许向某个接收 SimpleData&lt;Person> 参数的方法传入 SimpleData&lt;Student> 的实例，那么如下代码就会是合法的：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">student</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Student</span><span class="p">(</span><span class="s">&quot;Tom&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">18</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SimpleData</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="p">()</span><span class="w"></span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="n">data</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">student</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="n">handleSimpleData</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="c1">// 实际上这行会报错</span><span class="w"></span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">studentData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="na">get</span><span class="p">()</span><span class="w"></span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">handleSimpleData</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="w"> </span><span class="n">SimpleData</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">teacher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Teacher</span><span class="p">(</span><span class="s">&quot;Mike&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">35</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="n">data</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">teacher</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>在main() 方法中，我们创建了一个 Student 的实例，将它封装到 <code>SimpleData&lt;Student&gt;</code> 中并作为参数传递给 <code>handleSimpleData(data: SimpleData&lt;Person&gt;)</code> 方法。（这里假设可以编译通过）。</p>
+<p>那么在 handleSimpleData() 方法中，我们创建一个 Teacher 的实例，并用它来替换 SimpleData&lt;Person> 参数中的原有数据。这种操作肯定是合法的，因为 Teacher 也是 Person 的子类。但是问题马上来了，回到 main() 方法当中，我们调用 SimpleData&lt;Student> 的 get() 方法来获取它内部封装的 Student 数据，可现在 SimpleData&lt;Student> 中实际包含的却是一个 Teacher 的实例，那么此时必然会产生类型转换异常。所以，为了杜绝这种安全隐患，Java 是不允许使用这种方式来传递参数的。</p>
+<p>换句话说，即使 Student 是 Person 的子类，SimpleData&lt;Student> 并不是 SimpleData&lt;Person> 的子类。</p>
+<p>回顾一下刚才的代码，问题发生的主要原因是在 handleSimpleData() 方法中向 SimpleData&lt;Person> 里设置了一个 Teacher 的实例。如果 SimpleData 在泛型 T 上是只读的话，肯定就没有类型转换的安全隐患了，解决了这个问题后 SimpleData&lt;Student> 可不可以成为 SimpleData&lt;Person> 的子类呢？讲到这里，我们终于要引出泛型协变的定义了：</p>
+<p><strong>假如定义了一个 MyClass&lt;T> 的泛型类，其中 A 是 B 的子类，同时 MyClass&lt;A> 又是 MyClass&lt;B> 的子类型，那么我们就可以称 MyClass 在 T 这个泛型上是协变的。</strong></p>
+<p>让 A 是 B 的子类很简单，但如何才能让 MyClass&lt;A> 成为 MyClass&lt;B> 的子类型呢？刚才已经讲了，如果一个泛型类在其泛型类型的数据上是只读的话，那么它是没有类型转换安全隐患的。而要实现这一点，则需要让 MyClass&lt;T> 类中的所有方法都不能接收 T 类型的参数，换句话说，T 只能出现在 out 位置上，而不能出现在 in 位置上。现在修改 SimpleData 类的代码：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">class</span><span class="w"> </span><span class="nc">SimpleData</span><span class="o">&lt;</span><span class="k">out</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">data</span><span class="p">:</span><span class="w"> </span><span class="n">T?)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="w"></span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>在泛型 T 的声明前面加上了一个 <code>out</code> 关键字。这就意味着现在 T 只能出现在 out 位置上，而不能出现在 in 位置上，同时也意味着 SimpleData 在泛型 T 上是协变的。</p>
+<p>由于泛型 T 不能出现在 in 位置上，因此我们也就不能使用 set() 方法为 data 参数赋值了，所以这里改成了使用构造函数的方式来赋值。你可能会说，构造函数中的泛型 T 不也是在in位置上的吗？没错，但是由于这里我们使用了 <code>val</code> 关键字，所以构造函数中的泛型 T 仍然是只读的，因此这样写是合法且安全的。另外，即使使用 <code>var</code> 关键字，但只要给它加上 <code>private</code> 修饰符，保证这个泛型 T 对于外部而言是不可修改的，那么就都是合法的。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">student</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Student</span><span class="p">(</span><span class="s">&quot;Tom&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">18</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SimpleData</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="p">()</span><span class="w"></span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="n">data</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">student</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="n">handleSimpleData</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">studentData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="na">get</span><span class="p">()</span><span class="w"></span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">handleSimpleData</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="w"> </span><span class="n">SimpleData</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">personData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">teacher</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>由于 SimpleData 类已经进行了协变声明，那么 SimpleData&lt;Student> 自然就是 SimpleData&lt;Person> 的子类了，所以这里可以安全地向 <code>handleMyData(data: SimpleData&lt;Person&gt;)</code> 方法中传递 <code>SimpleData&lt;Student&gt;</code> 。然后在 handleMyData() 方法中去获取 SimpleData 封装的数据，虽然这里泛型声明的是 Person 类型，实际获得的会是一个 Student 的实例，但由于 Person 是 Student 的父类，向上转型是完全安全的，所以这段代码没有任何问题。</p>
+<h3 id="31-list">3.1 List<a class="headerlink" href="#31-list" title="Permanent link">&para;</a></h3>
+<p>前面提到，如果某个方法接收一个 List&lt;Person> 类型的参数，而传入的却是一个 List&lt;Student> 的实例， 在 Java 中是不允许的。但在 Kotlin 中这么做是合法的，因为 Kotlin 已经默认给许多内置的 API 加上了协变声明，其中就包括了各种集合的类与接口。Kotlin 中的 List 本身就是只读的，如果你想要给 List 添加数据，需要使用 MutableList 才行。既然 List 是只读的，也就意味着它天然就是可以协变的，我们来看一下 List 简化版的源码：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="nc">List</span><span class="o">&lt;</span><span class="k">out</span><span class="w"> </span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Collection</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="n">overrride</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">size</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="w"></span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="n">overrride</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">isEmpty</span><span class="p">():</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"></span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">contains</span><span class="p">(</span><span class="n">element</span><span class="p">:</span><span class="w"> </span><span class="nd">@UnsafeVariance</span><span class="w"> </span><span class="n">E</span><span class="p">):</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"></span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">iterator</span><span class="p">()</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Iterator</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="w"></span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">operator</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="n">index</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">):</span><span class="w"> </span><span class="n">E</span><span class="w"></span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>List 在泛型 E 的前面加上了 out 关键字，说明 List 在泛型 E 上是协变的。原则上在声明了协变之后，泛型 E 就只能出现在 out 位置上，可是在 contains() 方法中，泛型 E 仍然出现在了 in 位置上。这么写本身是不合法的，因为在in位置上出现了泛型E就意味着会有类型转换的安全隐患。但是 contains() 方法的目的非常明确，它只是为了判断当前集合中是否包含参数中传入的这个元素，而并不会修改当前集合中的内容，因此这种操作实质上又是安全的。为了让编译器能够理解我们的这种操作是安全的，这里在泛型 E 的前面又加上了一个 <code>@UnsafeVariance</code> 注解，这样编译器就会允许泛型 E 出现在in位置上了。如果滥用这个功能，导致运行时出现了类型转换异常，Kotlin 对此是不负责的。</p>
+<h2 id="4">4. 泛型的逆变<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p><strong>假如定义了一个 MyClass&lt;T> 的泛型类，其中 A 是 B 的子类型，同时 MyClass&lt;B> 又是 MyClass&lt;A> 的子类型，那么我们就可以称 MyClass 在 T 这个泛型上是逆变的。</strong></p>
+<p>仅从定义上来看，逆变与协变完全相反。</p>
+<p><img alt="" src="../imgs/%E6%B3%9B%E5%9E%8B%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/4.png" /></p>
+<p>从直观的角度上来思考，逆变的规则好像挺奇怪的，原本 A 是 B 的子类型，怎么 MyClass&lt;B> 能反过来成为 MyClass&lt;A> 的子类型了呢？下面我们通过一个具体的例子来学习一下。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kd">interface</span><span class="w"> </span><span class="nc">Transformer</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="n">t</span><span class="p">:</span><span class="w"> </span><span class="n">T</span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"></span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Transformer 接口中声明了一个 transform() 方法，接收一个 T 类型的参数，并返回一个 String 类型的数据，这意味着参数 T 在经过 transform() 方法的转换之后将会变成一个字符串。现在我们就尝试对接口进行实现：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="c1">// Person 转换器</span><span class="w"></span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">trans</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Transformer</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">        </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="n">t</span><span class="p">:</span><span class="w"> </span><span class="n">Person</span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="si">${</span><span class="n">t</span><span class="p">.</span><span class="na">name</span><span class="si">}</span><span class="s"> </span><span class="si">${</span><span class="n">t</span><span class="p">.</span><span class="na">age</span><span class="si">}</span><span class="s">&quot;</span><span class="w"></span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="n">handleTransformer</span><span class="p">(</span><span class="n">trans</span><span class="p">)</span><span class="w"> </span><span class="c1">// 报错</span><span class="w"></span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="c1">// 接收一个 Student 转换器</span><span class="w"></span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">handleTransformer</span><span class="p">(</span><span class="n">trans</span><span class="p">:</span><span class="w"> </span><span class="n">Transformer</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">student</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Student</span><span class="p">(</span><span class="s">&quot;Tom&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">20</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trans</span><span class="p">.</span><span class="na">transform</span><span class="p">(</span><span class="n">student</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>首先在 main() 方法中编写了一个 Transformer&lt;Person> 的匿名类实现，并通过 transform() 方法将传入的 Person 对象转换成了一个“姓名+年龄”拼接的字符串。</p>
+<p>handleTransformer() 方法接收的是 Transformer&lt;Student> 类型的参数，这里在 handleTransformer() 方法中创建了一个 Student 对象，并调用参数的 transform() 方法将 Student 对象转换成一个字符串。这段代码从安全的角度来分析是没有任何问题的，因为 Student 是 Person 的子类，使用 Transformer&lt;Person> 的匿名类实现将 Student 对象转换成一个字符串也是绝对安全的，并不存在类型转换的安全隐患。但是实际上，在调用 handleTransformer() 方法的时候却会提示语法错误，原因也很简单，Transformer&lt;Person> 并不是 Transformer&lt;Student> 的子类型。</p>
+<p>这个时候逆变就可以派上用场了，它就是专门用于处理这种情况的。修改 Transformer 接口中的代码：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kd">interface</span><span class="w"> </span><span class="nc">Transformer</span><span class="o">&lt;</span><span class="k">in</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="n">t</span><span class="p">:</span><span class="w"> </span><span class="n">T</span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"></span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>我们在泛型 T 的声明前面加上了一个 <code>in</code> 关键字。这就意味着现在 T 只能出现在 in 位置上，而不能出现在 out 位置上，同时也意味着 Transformer 在泛型 T 上是逆变的。没错，只要做了这样一点修改，刚才的代码就可以编译通过且正常运行了，因为此时 Transformer&lt;Person> 已经成为了 Transformer&lt;Student> 的子类型。逆变的用法大概就是这样。</p>
+<hr />
+<p>如果还想再深入思考一下的话，可以想想为什么逆变的时候泛型T不能出现在 out 位置上？为了解释这个问题，我们先假设逆变是允许让泛型 T 出现在 out 位置上的，然后看一看可能会产生什么样的安全隐患：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kd">interface</span><span class="w"> </span><span class="nc">Transformer</span><span class="o">&lt;</span><span class="k">in</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">):</span><span class="w"> </span><span class="nd">@UnsafeVariance</span><span class="w"> </span><span class="n">T</span><span class="w"></span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>我们将 transform() 方法改成了接收 name 和 age 这两个参数，并把返回值类型改成了泛型 T。由于逆变是不允许泛型 T 出现在 out 位置上的，这里为了能让编译器正常编译通过，所以加上了 <code>@UnsafeVariance</code> 注解。那么，这个时候可能会产生什么样的安全隐患呢？我们来看一下如下代码就知道了：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>fun main() {
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>    val trans = object: Transformer&lt;Person&gt; {
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>        override fun transform(name: String, age: Int): Person = Teacher(name, age)
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>    }
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>    handleTransformer(trans)
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>}
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>fun handleTransformer(trans: Transformer&lt;Student&gt;) {
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>    val result = trans.transform(&quot;Tom&quot;, 19)
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>}
+</code></pre></div>
+<p>上述代码就是一个典型的违反逆变规则而造成类型转换异常的例子。在 Transformer&lt;Person> 的匿名类实现中，我们使用 transform() 方法中传入的 name 和 age 参数构建了一个 Teacher 对象，并把这个对象直接返回。由于 transform() 方法的返回值要求是一个 Person 对象，而 Teacher 是 Person 的子类，因此这种写法肯定是合法的。但在 handleTransformer() 方法当中，我们调用了 Transformer&lt;Student> 的 transform() 方法，并传入了 name 和 age 这两个参数，期望得到的是一个 Student 对象的返回，然而实际上 transform() 方法返回的却是一个 Teacher 对象，因此这里必然会造成类型转换异常。由于这段代码是可以编译通过的，运行一下，打印出的异常信息如下所示：</p>
+<p><img alt="" src="../imgs/%E6%B3%9B%E5%9E%8B%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/5.png" /></p>
+<p>可以看到，提示我们 Teacher 是无法转换成 Student。也就是说，Kotlin 在提供协变和逆变功能时，就已经把各种潜在的类型转换安全隐患全部考虑进去了。只要我们严格按照其语法规则，让泛型在协变时只出现在 out 位置上，逆变时只出现在 in 位置上，就不会存在类型转换异常的情况。虽然 <code>@UnsafeVariance</code> 注解可以打破这一语法规则，但同时也会带来额外的风险，所以你在使用注解时，必须很清楚自己在干什么。</p>
+<h3 id="41-comparable">4.1 Comparable<a class="headerlink" href="#41-comparable" title="Permanent link">&para;</a></h3>
+<p>逆变功能在 Kotlin 内置 API 中的应用，比较典型的例子就是 Comparable，这是一个用于比较两个对象大小的接口：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kd">interface</span><span class="w"> </span><span class="nc">Comparable</span><span class="o">&lt;</span><span class="k">in</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="kd">operator</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">comparTo</span><span class="p">(</span><span class="n">other</span><span class="p">:</span><span class="w"> </span><span class="n">T</span><span class="p">):</span><span class="w"> </span><span class="kt">Int</span><span class="w"></span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>可以看到，Comparable在 T 这个泛型上就是逆变的，<code>compareTo()</code> 方法则用于实现具体的比较逻辑。这里为什么要让 Comparable 接口是逆变的呢？想象如下场景：如果使用 <code>Comparable&lt;Person&gt;</code> 实现了让两个 Person 对象比较大小的逻辑（Person 比较器），那么用这个 Person 比较器去比较两个 Student 对象的大小也一定是成立的，因此让 <code>Comparable&lt;Person&gt;</code> 成为 <code>Comparable&lt;Student&gt;</code> 的子类合情合理。</p>
+<p>下面我们通过一个简单的例子来更仔细讲一下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">personAntiAddiction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">object</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Comparable</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">        </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">compareTo</span><span class="p">(</span><span class="n">other</span><span class="p">:</span><span class="w"> </span><span class="n">Person</span><span class="p">):</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">other</span><span class="p">.</span><span class="na">age</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">18</span><span class="p">)</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="m">0</span><span class="w"></span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">    </span><span class="n">isStuMature</span><span class="p">(</span><span class="n">personAntiAddiction</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">isStuMature</span><span class="p">(</span><span class="n">studentAntiAddiction</span><span class="p">:</span><span class="w"> </span><span class="n">Comparable</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">student</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Student</span><span class="p">(</span><span class="s">&quot;Alice&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">18</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">studentAntiAddiction</span><span class="p">.</span><span class="na">compareTo</span><span class="p">(</span><span class="n">student</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="w">    </span><span class="k">when</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="w">        </span><span class="m">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Student </span><span class="si">${</span><span class="n">student</span><span class="p">.</span><span class="na">name</span><span class="si">}</span><span class="s"> is still underage.&quot;</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Student </span><span class="si">${</span><span class="n">student</span><span class="p">.</span><span class="na">name</span><span class="si">}</span><span class="s"> is an adult.&quot;</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>首先，我们创建一个匿名对象 <code>personAntiAddiction</code>（“人类防沉迷器”），实现 <code>Comparable</code> 接口并在 <code>compareTo</code> 中判断 Person 是否成年，成年就返回1，否则返回0。我们还创建了一个 <code>isStuMature()</code> 方法，接收一个“学生防沉迷器”并利用它来判断一个 Student 是否已经成年并打印结果。我们把“人类防沉迷器”传递给 <code>isStuMature()</code>，因为学生也是人，所以使用“人类防沉迷器”去判断学生是否成年完全是没问题的。</p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            回到页面顶部
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="../infix%20%E5%87%BD%E6%95%B0/" class="md-footer__link md-footer__link--prev" aria-label="上一页: infix 函数" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              infix 函数
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../%E5%8D%8F%E7%A8%8B/" class="md-footer__link md-footer__link--next" aria-label="下一页: 协程" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              协程
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2022 bqliang
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="mailto:hi@bqliang.com" target="_blank" rel="noopener" title="hi@bqliang.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z"/></svg>
+    </a>
+  
+    
+    
+    <a href="https://github.com/bqliang" target="_blank" rel="noopener" title="Github" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    <a href="https://t.me/bqliang" target="_blank" rel="noopener" title="Telegram" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M248 8C111.033 8 0 119.033 0 256s111.033 248 248 248 248-111.033 248-248S384.967 8 248 8Zm114.952 168.66c-3.732 39.215-19.881 134.378-28.1 178.3-3.476 18.584-10.322 24.816-16.948 25.425-14.4 1.326-25.338-9.517-39.287-18.661-21.827-14.308-34.158-23.215-55.346-37.177-24.485-16.135-8.612-25 5.342-39.5 3.652-3.793 67.107-61.51 68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608 69.142-14.845 10.194-26.894 9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7 18.45-13.7 108.446-47.248 144.628-62.3c68.872-28.647 83.183-33.623 92.511-33.789 2.052-.034 6.639.474 9.61 2.885a10.452 10.452 0 0 1 3.53 6.716 43.765 43.765 0 0 1 .417 9.769Z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>
